@@ -46,20 +46,18 @@ public class RdfUpload {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
-				exit();
+				printUsage(e);
 			}
 			repo.shutDown();
 		} catch (Exception e) {
-			e.printStackTrace();
-			exit();
+			printUsage(e);
 		}
 
 	}
 	
-	private static void exit() {
+	private static void printUsage(Throwable t) {
+		t.printStackTrace();
 		new HelpFormatter().printHelp("java -jar Rdf4jUpload.jar]", generateOptions());
-		System.exit(1);
 	}
 
 
