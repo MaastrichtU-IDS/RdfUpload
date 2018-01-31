@@ -9,7 +9,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.RDFDataMgr;
-import org.apache.xerces.impl.xpath.regex.RegularExpression;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 
@@ -18,7 +17,6 @@ public class RdfUpload {
 	public static void main(String[] args) throws Exception {
 		try {
 			CommandLineParser commandLineParser = new DefaultParser();
-			
 			CommandLine commandLine = commandLineParser.parse(generateOptions(), args);
 			
 			final String filePath = commandLine.getOptionValue("inputFile");;
@@ -36,6 +34,7 @@ public class RdfUpload {
 			try {
 				try (RepositoryConnection conn = repo.getConnection()) {
 					Model model = RDFDataMgr.loadDataset(filePath).getDefaultModel();
+					
 					StmtIterator stmtIterator = model.listStatements();
 					while (stmtIterator.hasNext()) {
 						Statement stmt = stmtIterator.next();
@@ -52,7 +51,6 @@ public class RdfUpload {
 		} catch (Exception e) {
 			printUsage(e);
 		}
-
 	}
 	
 	private static void printUsage(Throwable t) {
@@ -61,11 +59,9 @@ public class RdfUpload {
 	}
 
 
-	static RegularExpression literalCheck = new RegularExpression("^([\"'0-9]|true|false)");
-
 	private static String getObjectOrLiteral(Statement stmt) {
 		return 
-				literalCheck.matches(stmt.getObject().toString()) 
+				stmt.getObject().isLiteral() 
 				? "\"" + stmt.getObject() + "\""
 				: "<" + stmt.getObject() + ">";
 	}
