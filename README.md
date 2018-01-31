@@ -5,11 +5,11 @@ This project uploads a RDF file into a SPARQL V1.1 endpoint. It is possible to o
 ```
 docker build -t rdf-upload .
 ```
-## Run
-### Usage
+## Usage
 ```
 docker run -it --rm rdf-upload
 ```
+## Run
 ### Linux / OSX
 ```
 docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
