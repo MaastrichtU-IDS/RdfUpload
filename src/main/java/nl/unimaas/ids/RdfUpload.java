@@ -64,7 +64,9 @@ public class RdfUpload {
 	static RegularExpression literalCheck = new RegularExpression("^([\"'0-9]|true|false)");
 
 	private static String getObjectOrLiteral(Statement stmt) {
-		return literalCheck.matches(stmt.getObject().toString()) ? "\"" + stmt.getObject() + "\""
+		return 
+				literalCheck.matches(stmt.getObject().toString()) 
+				? "\"" + stmt.getObject() + "\""
 				: "<" + stmt.getObject() + ">";
 	}
 	
