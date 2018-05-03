@@ -1,16 +1,15 @@
 package nl.unimaas.ids;
 
+import java.io.File;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.riot.RDFDataMgr;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
+import org.eclipse.rdf4j.rio.Rio;
 
 public class RdfUpload {
 
@@ -31,22 +30,18 @@ public class RdfUpload {
 			repo.initialize();
 			
 			
-			try {
-				try (RepositoryConnection conn = repo.getConnection()) {
-					Model model = RDFDataMgr.loadDataset(filePath).getDefaultModel();
-					
-					StmtIterator stmtIterator = model.listStatements();
-					while (stmtIterator.hasNext()) {
-						Statement stmt = stmtIterator.next();
-		
-						String insert = "INSERT DATA { <" + stmt.getSubject() + "> <" + stmt.getPredicate() + "> " + getObjectOrLiteral(stmt) + " }";
-						System.out.println(insert);
-						conn.prepareUpdate(insert).execute();
-					}
-				}
+			try (RepositoryConnection conn = repo.getConnection()) {
+				File inputFile = new File(filePath);
+				if(!inputFile.exists())
+					throw new IllegalArgumentException("Input file \"" + inputFile.getAbsolutePath() + "\" does not exist");
+				if(!inputFile.canRead())
+					throw new SecurityException("Can not read from input file \"" + inputFile.getAbsolutePath() + "\"");
+				
+				conn.add(new File(filePath), null, Rio.getParserFormatForFileName(inputFile.getName()).get());
 			} catch (Exception e) {
 				printUsage(e);
 			}
+		
 			repo.shutDown();
 		} catch (Exception e) {
 			printUsage(e);
@@ -59,13 +54,6 @@ public class RdfUpload {
 	}
 
 
-	private static String getObjectOrLiteral(Statement stmt) {
-		return 
-				stmt.getObject().isLiteral() 
-				? "\"" + stmt.getObject() + "\""
-				: "<" + stmt.getObject() + ">";
-	}
-	
 	private static Options generateOptions() {
 		Options options = new Options();
 		options.addRequiredOption("if","inputFile", true, "Path to the RDF file to be imported");
