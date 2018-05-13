@@ -1,5 +1,8 @@
 # About
-This project uploads a RDF file into a SPARQL V1.1 endpoint. It is possible to optionally define an update endpoint, username and password.
+This project uploads a RDF file into a specified SPARQL V1.1 endpoint. It is possible to optionally define an update endpoint, username and password.
+
+This Docker container is part of the LODQuA pipeline (https://github.com/MaastrichtU-IDS/dqa_pipeline/).
+
 # Docker
 ## Build
 ```
