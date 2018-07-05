@@ -6,18 +6,33 @@ This Docker container is part of the LODQuA pipeline (https://github.com/Maastri
 # Docker
 ## Build
 ```
-docker build -t rdf-upload .
+# docker build -t rdfupload .
 ```
 ## Usage
 ```
-docker run -it --rm rdf-upload
+# docker run -it --rm rdfupload -?
+
+Usage: rdfupload [-?] -ep=<endpoint> -if=<inputFile> [-pw=<passWord>]
+                 -uep=<updateEndpoint> [-un=<userName>]
+  -?, --help   display a help message
+      -ep, --endPoint=<endpoint>
+               SPARQL endpoint URL
+      -if, --inputFile=<inputFile>
+               RDF file path
+      -pw, --Password=<passWord>
+               Password used for authentication
+      -uep, --updateEndPoint=<updateEndpoint>
+               SPARQL udpate endpoint
+      -un, --userName=<userName>
+               Username userd for authentication
+
 ```
 ## Run
 ### Linux / OSX
 ```
-docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
+# docker run -it --rm -v /data/rdfu:/data rdfupload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
 ```
 ### Windows
 ```
-docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
+# docker run -it --rm -v /c/data/rdfu:/data rdfupload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
 ```
