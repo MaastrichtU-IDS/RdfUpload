@@ -11,9 +11,9 @@ COPY . .
 
 RUN mvn clean install && \
     mkdir $APP_DIR && \
-    mv target/RdfUpload-0.0.1-SNAPSHOT-jar-with-dependencies.jar $APP_DIR/RdfUpload.jar && \
+    mv target/RdfUpload-0.0.1-SNAPSHOT-jar-with-dependencies.jar $APP_DIR/rdfupload.jar && \
     rm -rf $TMP_DIR
     
 WORKDIR $APP_DIR
 
-ENTRYPOINT ["java","-jar","RdfUpload.jar"]
+ENTRYPOINT ["java","-jar","rdfupload.jar"]
