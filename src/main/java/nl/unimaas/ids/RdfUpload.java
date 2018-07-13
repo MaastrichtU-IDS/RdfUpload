@@ -3,6 +3,7 @@ package nl.unimaas.ids;
 import java.io.File;
 
 import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.eclipse.rdf4j.rio.Rio;
 
@@ -16,15 +17,19 @@ public class RdfUpload {
 			CliOptions cli = CommandLine.populateCommand(new CliOptions(), args);
 			if(cli.help) 
 				printUsageAndExit();
-			
+
 			final String filePath = cli.inputFile;
-			
-			SPARQLRepository repo;
+
+			/*SPARQLRepository repo;
 			if(cli.updateEndpoint!=null)
 				repo = new SPARQLRepository(cli.endpoint, cli.updateEndpoint);
 			else
-				repo = new SPARQLRepository(cli.endpoint);
-			
+			repo = new SPARQLRepository(cli.endpoint);*/
+
+			HTTPRepository repo;
+
+			repo = new HTTPRepository(cli.url, cli.repository);
+
 			repo.setUsernameAndPassword(cli.userName, cli.passWord);
 			repo.initialize();
 			
