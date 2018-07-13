@@ -9,11 +9,12 @@ This Docker container is part of the LODQuA pipeline (https://github.com/Maastri
 # docker build -t rdfupload .
 ```
 ## Usage
-```
+```shell
 # docker run -it --rm rdfupload -?
 
-Usage: rdfupload [-?] -ep=<endpoint> -if=<inputFile> [-pw=<passWord>]
-                 -uep=<updateEndpoint> [-un=<userName>]
+Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
+                 -rep=<repository> [-uep=<updateEndpoint>] [-un=<userName>]
+                 -url=<url>
   -?, --help   display a help message
       -ep, --endPoint=<endpoint>
                SPARQL endpoint URL
@@ -21,10 +22,14 @@ Usage: rdfupload [-?] -ep=<endpoint> -if=<inputFile> [-pw=<passWord>]
                RDF file path
       -pw, --Password=<passWord>
                Password used for authentication
+      -rep, --repository=<repository>
+               Repository ID
       -uep, --updateEndPoint=<updateEndpoint>
                SPARQL udpate endpoint
       -un, --userName=<userName>
                Username userd for authentication
+      -url, --graphdb-url=<url>
+               URL to access GraphDB (e.g.: http://localhost:7200)
 
 ```
 ## Run

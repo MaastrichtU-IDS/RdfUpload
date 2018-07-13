@@ -26,6 +26,7 @@ public class RdfUpload {
 			else
 			repo = new SPARQLRepository(cli.endpoint);*/
 
+			// http://docs.rdf4j.org/programming/
 			HTTPRepository repo;
 
 			repo = new HTTPRepository(cli.url, cli.repository);
