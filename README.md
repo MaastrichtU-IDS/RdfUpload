@@ -1,16 +1,16 @@
 # About
-This project uploads a RDF file into a specified SPARQL V1.1 endpoint. It is possible to optionally define an update endpoint, username and password.
+This project uploads a RDF file into a specified GraphDB HTTP Repository endpoint. It is possible to optionally define username and password.
 
 This Docker container is part of the LODQuA pipeline (https://github.com/MaastrichtU-IDS/dqa_pipeline/).
 
 # Docker
 ## Build
-```
-# docker build -t rdfupload .
+```shell
+docker build -t rdf-upload .
 ```
 ## Usage
 ```shell
-# docker run -it --rm rdfupload -?
+# docker run -it --rm rdf-upload -?
 
 Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
                  -rep=<repository> [-uep=<updateEndpoint>] [-un=<userName>]
@@ -33,11 +33,31 @@ Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
 
 ```
 ## Run
-### Linux / OSX
+### For HTTPRepository
+
+- Linux / OSX
+
+```shell
+docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "kraken_test" -un admin -pw admin
 ```
-# docker run -it --rm -v /data/rdfu:/data rdfupload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
+
+- Windows
+
+```powershell
+docker run -it --rm -v c:/data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "kraken_test" -un admin -pw admin
 ```
-### Windows
+
+
+
+### For SPARQLRepository (old version)
+
+* Linux / OSX
+
+```shell
+docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://localhost:7200/sparql"
 ```
-# docker run -it --rm -v /c/data/rdfu:/data rdfupload -if "/data/rdffile.nt" -ep "http://myendpoint.org/sparql"
+* Windows
+
+```powershell
+docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://localhost:7200/sparql"
 ```
