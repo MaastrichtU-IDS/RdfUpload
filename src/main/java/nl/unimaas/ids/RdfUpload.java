@@ -18,36 +18,14 @@ public class RdfUpload {
 			if(cli.help) 
 				printUsageAndExit();
 
-			final String filePath = cli.inputFile;
-
-			/*SPARQLRepository repo;
-			if(cli.updateEndpoint!=null)
-				repo = new SPARQLRepository(cli.endpoint, cli.updateEndpoint);
-			else
-			repo = new SPARQLRepository(cli.endpoint);*/
-
-			// http://docs.rdf4j.org/programming/
-			HTTPRepository repo;
-
-			repo = new HTTPRepository(cli.url, cli.repository);
-
-			repo.setUsernameAndPassword(cli.userName, cli.passWord);
-			repo.initialize();
-			
-			
-			try (RepositoryConnection conn = repo.getConnection()) {
-				File inputFile = new File(filePath);
-				if(!inputFile.exists())
-					throw new IllegalArgumentException("Input file \"" + inputFile.getAbsolutePath() + "\" does not exist");
-				if(!inputFile.canRead())
-					throw new SecurityException("Can not read from input file \"" + inputFile.getAbsolutePath() + "\"");
-				
-				conn.add(new File(filePath), null, Rio.getParserFormatForFileName(inputFile.getName()).get());
-			} catch (Exception e) {
-				printUsageAndExit(e);
+			if(cli.url !=null && cli.repository != null) {
+				HttpUpload.uploadRdf(cli.inputFile, cli.url, cli.repository, cli.userName, cli.passWord);
+			} else if (cli.endpoint !=null && cli.updateEndpoint != null) {
+				SparqlUpload.uploadRdf(cli.inputFile, cli.endpoint, cli.updateEndpoint, cli.userName, cli.passWord);
+			} else {
+				// Print error message
 			}
-		
-			repo.shutDown();
+
 		} catch (Exception e) {
 			printUsageAndExit(e);
 		}
