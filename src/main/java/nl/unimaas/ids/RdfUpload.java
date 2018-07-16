@@ -16,7 +16,15 @@ public class RdfUpload {
 
 
 
-			if(cli.method.equals("RDF4JSPARQL")) {
+			if (cli.method.equals("HTTP")) {
+
+				HttpLoader.uploadRdf(cli.inputFile, cli.dbUrl, cli.repositoryId, cli.username, cli.password);
+
+			} else if (cli.method.equals("SPARQL")) {
+
+				SparqlLoader.uploadRdf(false, cli.inputFile, cli.dbUrl, cli.username, cli.password);
+
+			} else if(cli.method.equals("RDF4JSPARQL")) {
 				String endpoint = null;
 
 				if (cli.repositoryId != null)
@@ -26,14 +34,6 @@ public class RdfUpload {
 					endpoint = cli.dbUrl;
 
 				SparqlLoader.uploadRdf(true, cli.inputFile, endpoint, cli.username, cli.password);
-
-			} else if (cli.method.equals("HTTP")) {
-
-				HttpLoader.uploadRdf(cli.inputFile, cli.dbUrl, cli.repositoryId, cli.username, cli.password);
-
-			} else if (cli.method.equals("SPARQL")) {
-
-				SparqlLoader.uploadRdf(false, cli.inputFile, cli.dbUrl, cli.username, cli.password);
 
 			} else {
 				printUsageAndExit();
