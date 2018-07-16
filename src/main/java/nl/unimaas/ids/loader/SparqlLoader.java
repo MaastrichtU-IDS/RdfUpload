@@ -1,4 +1,4 @@
-package nl.unimaas.ids;
+package nl.unimaas.ids.loader;
 
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
@@ -8,14 +8,14 @@ import picocli.CommandLine;
 
 import java.io.File;
 
-public class SparqlUpload {
+public class SparqlLoader {
 
-	public static void uploadRdf(String filePath, String endpoint, String updateEndpoint, String userName, String passWord) throws Exception {
+	public static void uploadRdf(boolean isRdf4jSparql, String filePath, String endpoint, String userName, String passWord) throws Exception {
 
 		SPARQLRepository repo;
 
-		if(updateEndpoint!=null) {
-			repo = new SPARQLRepository(endpoint, updateEndpoint);
+		if(isRdf4jSparql == true) {
+			repo = new SPARQLRepository(endpoint, endpoint + "/statements");
 		} else {
 			repo = new SPARQLRepository(endpoint);
 		}
