@@ -8,11 +8,14 @@ import picocli.CommandLine;
 
 import java.io.File;
 
+/**
+ * A class to upload to GraphDB SPARQL endpoint
+ */
 public class SparqlLoader {
 
-	public static void uploadRdf(boolean isRdf4jSparql, String filePath, String endpoint, String username, String password) throws Exception {
+	private static SPARQLRepository repo;
 
-		SPARQLRepository repo;
+	public static void uploadRdf(boolean isRdf4jSparql, String filePath, String endpoint, String username, String password) throws Exception {
 
 		if(isRdf4jSparql == true) {
 			repo = new SPARQLRepository(endpoint, endpoint + "/statements");

@@ -11,9 +11,9 @@ import java.io.File;
  */
 public class HttpLoader {
 
-	public static void uploadRdf(String filePath, String dbUrl, String repository, String username, String password) throws Exception {
+	private static HTTPRepository repo;
 
-		HTTPRepository repo;
+	public static void uploadRdf(String filePath, String dbUrl, String repository, String username, String password) throws Exception {
 
 		repo = new HTTPRepository(dbUrl, repository);
 
