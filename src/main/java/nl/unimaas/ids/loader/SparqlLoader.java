@@ -10,7 +10,7 @@ import java.io.File;
 
 public class SparqlLoader {
 
-	public static void uploadRdf(boolean isRdf4jSparql, String filePath, String endpoint, String userName, String passWord) throws Exception {
+	public static void uploadRdf(boolean isRdf4jSparql, String filePath, String endpoint, String username, String password) throws Exception {
 
 		SPARQLRepository repo;
 
@@ -20,7 +20,7 @@ public class SparqlLoader {
 			repo = new SPARQLRepository(endpoint);
 		}
 
-		repo.setUsernameAndPassword(userName, passWord);
+		repo.setUsernameAndPassword(username, password);
 		repo.initialize();
 
 

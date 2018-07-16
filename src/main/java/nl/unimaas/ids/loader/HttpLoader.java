@@ -11,13 +11,13 @@ import java.io.File;
  */
 public class HttpLoader {
 
-	public static void uploadRdf(String filePath, String dbUrl, String repository, String userName, String passWord) throws Exception {
+	public static void uploadRdf(String filePath, String dbUrl, String repository, String username, String password) throws Exception {
 
 		HTTPRepository repo;
 
 		repo = new HTTPRepository(dbUrl, repository);
 
-		repo.setUsernameAndPassword(userName, passWord);
+		repo.setUsernameAndPassword(username, password);
 		repo.initialize();
 
 
