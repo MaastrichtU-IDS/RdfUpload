@@ -9,11 +9,11 @@ public class CliOptions {
 	boolean help = false;
 
 
-	@Option(names= {"-m", "--method"}, description = "Upload Method (SPARQL (default), RDF4JSPARQL, HTTP)", required = true)
-	String method = "SPARQL";
+	@Option(names= {"-m", "--method"}, description = "Upload Method (HTTP (default), SPARQL, RDF4JSPARQL)")
+	String method = "HTTP";
 
-	@Option(names= {"-url", "--database-url"}, description = "URL for Repository/Endpoint", required = true)
-	String dbUrl = null;
+	@Option(names= {"-url", "--database-url"}, description = "URL for Repository/Endpoint (default is http://graphdb:7200)")
+	String dbUrl = "http://graphdb:7200)";
 
 	@Option(names= {"-rep", "--repositoryId"}, description = "RDF4J Repository ID for HTTPRepository file upload (only required in case of RDF4JSPARQL or HTTP method)")
 	String repositoryId = null;
