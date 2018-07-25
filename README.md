@@ -1,7 +1,7 @@
 # About
 This project uploads a RDF file into a specified GraphDB HTTP Repository endpoint. It is possible to optionally define username and password.
 
-This Docker container is part of the LODQuA pipeline (https://github.com/MaastrichtU-IDS/dqa_pipeline/).
+This Docker container is part of the LODQuA pipeline (https://github.com/MaastrichtU-IDS/dqa-pipeline/).
 
 # Docker
 ## Build
