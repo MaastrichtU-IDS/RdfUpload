@@ -43,7 +43,7 @@ public class HttpLoader {
 				Iterator<File> iterator = files.iterator();
 				while (iterator.hasNext()) {
 					File f = iterator.next();
-					System.out.println("Converting: " + f);
+					System.out.println("Uploading: " + f);
 					conn.add(f, null, Rio.getParserFormatForFileName(f.getName()).get());
 				}
 			} else {
