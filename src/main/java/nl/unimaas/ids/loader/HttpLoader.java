@@ -36,7 +36,7 @@ public class HttpLoader {
 			if (inputFile.isDirectory()) {
 				Collection files = FileUtils.listFiles(
 						inputFile,
-						new RegexFileFilter(".*\\.(nt|nq|n3|ttl|rdf)"),
+						new RegexFileFilter(".*\\.(nt|nq|n3|ttl|rdf)(\\.gz)*"),
 						DirectoryFileFilter.DIRECTORY
 				);
 				// Recursively iterate over files in the directory

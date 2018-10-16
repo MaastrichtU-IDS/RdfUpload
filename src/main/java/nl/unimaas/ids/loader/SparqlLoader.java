@@ -1,12 +1,10 @@
 package nl.unimaas.ids.loader;
 
+import java.io.File;
+
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.eclipse.rdf4j.rio.Rio;
-import picocli.CommandLine;
-
-import java.io.File;
 
 /**
  * A class to upload to GraphDB SPARQL endpoint
