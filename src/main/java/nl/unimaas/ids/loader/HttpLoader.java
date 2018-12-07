@@ -34,7 +34,7 @@ public class HttpLoader {
 				throw new SecurityException("Can not read from input file \"" + inputFile.getAbsolutePath() + "\"");
 
 			if (inputFile.isDirectory()) {
-				Collection files = FileUtils.listFiles(
+				Collection<File> files = FileUtils.listFiles(
 						inputFile,
 						new RegexFileFilter(".*\\.(nt|nq|n3|ttl|rdf)(\\.gz)*"),
 						DirectoryFileFilter.DIRECTORY
