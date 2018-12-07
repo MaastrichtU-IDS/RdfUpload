@@ -61,3 +61,46 @@ docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "h
 ```powershell
 docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://localhost:7200/sparql"
 ```
+
+
+
+# Preload
+
+```shell
+/opt/graphdb/dist/bin/preload -f -i <repo-name> <RDF data file(s)>
+
+docker build -t preload .
+docker run -it -v /data/graphdb-preload:/data preload -f -i test /data/biogrid_dataset.ttl 
+
+# Almost working:
+docker run -it -v /data/graphdb-preload:/data -v /data/graphdb:/opt/graphdb/home -v /data/graphdb-import:/root/graphdb-import preload -c "/data/repo-config.ttl" "/data/biogrid_dataset.ttl"
+```
+
+repo-config.ttl:
+
+```python
+# Configuration template for an GraphDB-Free repository
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep: <http://www.openrdf.org/config/repository#>.
+@prefix sr: <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail: <http://www.openrdf.org/config/sail#>.
+@prefix owlim: <http://www.ontotext.com/trree/owlim#>.
+[] a rep:Repository ;
+    rep:repositoryID "test" ;
+    rdfs:label "Test repo" ;
+    rep:repositoryImpl [
+        rep:repositoryType "graphdb:FreeSailRepository" ;
+        sr:sailImpl [
+            sail:sailType "graphdb:FreeSail" ;
+            # ruleset to use
+            owlim:ruleset "empty" ;
+            # disable context index(because my data do not uses contexts)
+            owlim:enable-context-index "true" ;
+            # indexes to speed up the read queries
+            owlim:enablePredicateList "true" ;
+            owlim:enable-literal-index "true" ;
+            owlim:in-memory-literal-properties "true" ;
+        ]
+    ].
+```
+
