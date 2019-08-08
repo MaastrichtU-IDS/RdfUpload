@@ -1,7 +1,5 @@
 package nl.unimaas.ids;
 
-import java.sql.SQLException;
-
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
@@ -9,7 +7,7 @@ import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 public class SparqlRepositoryFactory {
 	
 	// Try to load HTTPRepository, load SPARQLRepository if fail
-	public static Repository getRepository(String endpointUrl, String repositoryId, String username, String password) throws SQLException, ClassNotFoundException {
+	public static Repository getRepository(String endpointUrl, String repositoryId, String username, String password) {
 		if (repositoryId != null) {
 			// If RDF4J repository ID is provided we loaded using it instead of the repository URL
 			// It allows to do select and update on same repo (with URL you have the repo and repo/statements for update)
