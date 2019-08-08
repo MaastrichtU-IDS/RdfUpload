@@ -1,7 +1,6 @@
 package nl.unimaas.ids;
 
-import nl.unimaas.ids.loader.HttpLoader;
-import nl.unimaas.ids.loader.SparqlLoader;
+import org.eclipse.rdf4j.repository.Repository;
 
 import picocli.CommandLine;
 
@@ -14,30 +13,9 @@ public class RdfUpload {
 			if(cli.help)
 				printUsageAndExit();
 
-
-
-			if (cli.method.equals("HTTP")) {
-
-				HttpLoader.uploadRdf(cli.inputFile, cli.dbUrl, cli.repositoryId, cli.username, cli.password);
-
-			} else if (cli.method.equals("SPARQL")) {
-
-				SparqlLoader.uploadRdf(false, cli.inputFile, cli.dbUrl, cli.username, cli.password);
-
-			} else if(cli.method.equals("RDF4JSPARQL")) {
-				String endpoint = null;
-
-				if (cli.repositoryId != null)
-					// If the repository ID is provided then we built the GraphDB endpoint URL using it
-					endpoint = cli.dbUrl + "/repositories/" + cli.repositoryId;
-				else
-					endpoint = cli.dbUrl;
-
-				SparqlLoader.uploadRdf(true, cli.inputFile, endpoint, cli.username, cli.password);
-
-			} else {
-				printUsageAndExit();
-			}
+			Repository repo = SparqlRepositoryFactory.getRepository(cli.dbUrl, cli.repositoryId, cli.username, cli.password);
+			
+			SparqlLoader.uploadRdf(cli.inputFile, repo);
 
 		} catch (Exception e) {
 			printUsageAndExit(e);

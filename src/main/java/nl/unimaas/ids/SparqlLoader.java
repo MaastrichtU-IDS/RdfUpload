@@ -1,10 +1,10 @@
-package nl.unimaas.ids.loader;
+package nl.unimaas.ids;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.RegexFileFilter;
+import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.eclipse.rdf4j.rio.Rio;
 
 import java.io.File;
@@ -12,19 +12,11 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A class to upload to GraphDB HTTP endpoint
+ * A class to upload RDF to a SPARQL endpoint
  */
-public class HttpLoader {
+public class SparqlLoader {	
 
-	private static HTTPRepository repo;
-
-	public static void uploadRdf(String filePath, String dbUrl, String repository, String username, String password) throws Exception {
-
-		repo = new HTTPRepository(dbUrl, repository);
-
-		repo.setUsernameAndPassword(username, password);
-		repo.initialize();
-
+	public static void uploadRdf(String filePath, Repository repo) throws Exception {
 
 		try (RepositoryConnection conn = repo.getConnection()) {
 			File inputFile = new File(filePath);
