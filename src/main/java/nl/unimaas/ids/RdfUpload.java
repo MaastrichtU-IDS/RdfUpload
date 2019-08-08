@@ -8,8 +8,8 @@ public class RdfUpload {
 
 	public static void main(String[] args) throws Exception {
 		try {
-			
 			CliOptions cli = CommandLine.populateCommand(new CliOptions(), args);
+			
 			if(cli.help)
 				printUsageAndExit();
 

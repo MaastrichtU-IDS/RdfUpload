@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A class to upload RDF to a SPARQL endpoint
+ * A class to upload RDF to a RDF4J repository
  */
 public class SparqlLoader {	
 
@@ -47,5 +47,4 @@ public class SparqlLoader {
 
 		repo.shutDown();
 	}
-
 }
