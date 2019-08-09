@@ -16,16 +16,12 @@ Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
                  -rep=<repository> [-uep=<updateEndpoint>] [-un=<userName>]
                  -url=<url>
   -?, --help   display a help message
-      -ep, --endPoint=<endpoint>
-               SPARQL endpoint URL
       -if, --inputFile=<inputFile>
                RDF file path
       -pw, --Password=<passWord>
                Password used for authentication
       -rep, --repository=<repository>
                Repository ID
-      -uep, --updateEndPoint=<updateEndpoint>
-               SPARQL udpate endpoint
       -un, --userName=<userName>
                Username userd for authentication
       -url, --graphdb-url=<url>
@@ -54,12 +50,12 @@ docker run -it --rm -v c:/data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" 
 * Linux / OSX
 
 ```shell
-docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://localhost:7200/sparql"
+docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -url "http://localhost:7200/sparql"
 ```
 * Windows
 
 ```powershell
-docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep "http://localhost:7200/sparql"
+docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -url "http://localhost:7200/sparql"
 ```
 
 
@@ -67,13 +63,33 @@ docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -ep 
 # Preload
 
 ```shell
+docker run -d --rm --name graphdb -p 7200:7200 \
+  -v /data/graphdb:/opt/graphdb/home \
+  -v /data/graphdb-import:/root/graphdb-import \
+  graphdb
+```
+
+
+
+Issue: GraphDB needs to be stopped when running the load tool. Killing the java process stop the container
+
+Try without the `--rm` flag
+
+```shell
 /opt/graphdb/dist/bin/preload -f -i <repo-name> <RDF data file(s)>
 
-docker build -t preload .
-docker run -it -v /data/graphdb-preload:/data preload -f -i test /data/biogrid_dataset.ttl 
+preload -f -i test /data/graphdb-preload/biogrid_dataset.ttl
 
-# Almost working:
-docker run -it -v /data/graphdb-preload:/data -v /data/graphdb:/opt/graphdb/home -v /data/graphdb-import:/root/graphdb-import preload -c "/data/repo-config.ttl" "/data/biogrid_dataset.ttl"
+
+docker run -it -v /data/graphdb:/opt/graphdb/home -v /data/graphdb-import:/root/graphdb-import --entrypoint "/opt/graphdb/dist/bin/preload -f -i test /opt/graphdb/home/data/rdf_output.nq" graphdb
+
+# Not failing, but nothing load when docker start graphdb
+docker run -it -v /data/graphdb:/opt/graphdb/home -v /data/graphdb-import:/root/graphdb-import --entrypoint /opt/graphdb/dist/bin/preload graphdb -c /root/graphdb-import/repo-config.ttl /opt/graphdb/home/data/rdf_output.nq
+
+# Create repo test using config file. Works but GraphDB should not run
+docker exec -it graphdb /opt/graphdb/dist/bin/preload -c "/root/graphdb-import/repo-config.ttl" "/opt/graphdb/home/data/rdf_output.nq"
+# Use existing test repo
+docker exec -it graphdb /opt/graphdb/dist/bin/preload -f -i test "/opt/graphdb/home/data/rdf_output.nq"
 ```
 
 repo-config.ttl:
