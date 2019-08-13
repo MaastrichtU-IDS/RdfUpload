@@ -1,5 +1,5 @@
 # About
-This project uploads a RDF file into a specified SPARQL Repository endpoint. It is possible to optionally define username and password. 
+This project uploads a RDF file into a specified SPARQL endpoint. It is possible to optionally define username and password. 
 
 * Faster on [RDF4J servers](https://rdf4j.eclipse.org/documentation/server-workbench-console/), as we use RDF4J. Mainly tested on [GraphDB](https://www.ontotext.com/products/graphdb/graphdb-free/).  
 
