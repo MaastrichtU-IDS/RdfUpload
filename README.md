@@ -1,7 +1,9 @@
 # About
-This project uploads a RDF file into a specified GraphDB HTTP Repository endpoint. It is possible to optionally define username and password.
+This project uploads a RDF file into a specified SPARQL Repository endpoint. It is possible to optionally define username and password. 
 
-This Docker container is part of the LODQuA pipeline (https://github.com/MaastrichtU-IDS/dqa-pipeline/).
+* Faster on [RDF4J servers](https://rdf4j.eclipse.org/documentation/server-workbench-console/), as we use RDF4J. Mainly tested on [GraphDB](https://www.ontotext.com/products/graphdb/graphdb-free/).  
+
+* This Docker container is part of the [LODQuA pipeline](https://github.com/MaastrichtU-IDS/dqa-pipeline/).
 
 # Docker
 ## Build
@@ -10,7 +12,7 @@ docker build -t rdf-upload .
 ```
 ## Usage
 ```shell
-# docker run -it --rm rdf-upload -?
+docker run -it --rm rdf-upload -?
 
 Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
                  -rep=<repository> [-uep=<updateEndpoint>] [-un=<userName>]
@@ -29,33 +31,20 @@ Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
 
 ```
 ## Run
-### For HTTPRepository
-
 - Linux / OSX
 
 ```shell
-docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "kraken_test" -un admin -pw admin
+# RDF4J server URL + repository ID
+docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "test" -un USERNAME -pw PASSWORD
+
+# With full SPARQL endpoint URL
+docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200/repositories/test" -un USERNAME -pw PASSWORD
 ```
 
 - Windows
 
 ```powershell
-docker run -it --rm -v c:/data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "kraken_test" -un admin -pw admin
-```
-
-
-
-### For SPARQLRepository (old version)
-
-* Linux / OSX
-
-```shell
-docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -url "http://localhost:7200/sparql"
-```
-* Windows
-
-```powershell
-docker run -it --rm -v /c/data/rdfu:/data rdf-upload -if "/data/rdffile.nt" -url "http://localhost:7200/sparql"
+docker run -it --rm -v c:/data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "test" -un USERNAME -pw PASSWORD
 ```
 
 
@@ -94,7 +83,7 @@ docker exec -it graphdb /opt/graphdb/dist/bin/preload -f -i test "/opt/graphdb/h
 
 repo-config.ttl:
 
-```python
+```SPARQL
 # Configuration template for an GraphDB-Free repository
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix rep: <http://www.openrdf.org/config/repository#>.
