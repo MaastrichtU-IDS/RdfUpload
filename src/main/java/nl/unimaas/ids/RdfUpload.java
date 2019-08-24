@@ -1,11 +1,14 @@
 package nl.unimaas.ids;
 
+import java.io.File;
+
 import org.eclipse.rdf4j.repository.Repository;
+import org.apache.tools.ant.DirectoryScanner;
 
 import picocli.CommandLine;
 
 public class RdfUpload {
-
+	
 	public static void main(String[] args) throws Exception {
 		try {
 			CliOptions cli = CommandLine.populateCommand(new CliOptions(), args);
@@ -15,7 +18,14 @@ public class RdfUpload {
 
 			Repository repo = SparqlRepositoryFactory.getRepository(cli.dbUrl, cli.repositoryId, cli.username, cli.password);
 			
-			SparqlLoader.uploadRdf(cli.inputFile, repo);
+			DirectoryScanner scanner = new DirectoryScanner();
+			scanner.setIncludes(new String[]{cli.inputFile.substring(cli.inputFile.startsWith("/") ? 1 : 0)});
+			scanner.setBasedir(new File("/"));
+			scanner.setCaseSensitive(false);
+			scanner.scan();
+			for(String inputFilePath : scanner.getIncludedFiles()) {
+				SparqlLoader.uploadRdf("/" + inputFilePath, repo);
+			}
 
 		} catch (Exception e) {
 			printUsageAndExit(e);
