@@ -37,8 +37,8 @@ Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
 # RDF4J server URL + repository ID
 docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200" -rep "test" -un USERNAME -pw PASSWORD
 
-# With full SPARQL endpoint URL
-docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/rdf_output.ttl" -url "http://localhost:7200/repositories/test" -un USERNAME -pw PASSWORD
+# Upload multiple files with full SPARQL endpoint URL 
+docker run -it --rm -v /data/rdfu:/data rdf-upload -if "/data/*.ttl" -url "http://localhost:7200/repositories/test" -un USERNAME -pw PASSWORD
 ```
 
 - Windows
