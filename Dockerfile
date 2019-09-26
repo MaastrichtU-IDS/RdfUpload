@@ -16,4 +16,4 @@ RUN mvn clean install && \
     
 WORKDIR $APP_DIR
 
-ENTRYPOINT ["java","-jar","rdfupload.jar"]
+ENTRYPOINT ["java","-jar","/app/rdfupload.jar"]
