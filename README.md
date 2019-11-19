@@ -1,4 +1,6 @@
 # About
+See the [Data2Services documentation](http://d2s.semanticscience.org/) to run RdfUpload as part of workflows to generate RDF knowledge graph from structured data.
+
 This project uploads a RDF file into a specified SPARQL endpoint. It is possible to optionally define username and password. 
 
 * Faster on [RDF4J servers](https://rdf4j.eclipse.org/documentation/server-workbench-console/), as we use RDF4J. Mainly tested on [GraphDB](https://www.ontotext.com/products/graphdb/graphdb-free/).  
