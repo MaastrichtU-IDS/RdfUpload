@@ -9,6 +9,7 @@ public class SparqlRepositoryFactory {
 	// Try to load HTTPRepository, load SPARQLRepository if fail
 	public static Repository getRepository(String endpointUrl, String repositoryId, String username, String password) {
 		if (repositoryId != null) {
+			System.out.println("Triplestore is a RDF4J server, using HTTPRepository");
 			// If RDF4J repository ID is provided we loaded using it instead of the repository URL
 			// It allows to do select and update on same repo (with URL you have the repo and repo/statements for update)
 			HTTPRepository httpRepo = new HTTPRepository(endpointUrl, repositoryId);
@@ -17,6 +18,7 @@ public class SparqlRepositoryFactory {
         	return httpRepo;
 		} else {
 			if (endpointUrl.endsWith("/statements") && endpointUrl.contains("/repositories/")) {
+				System.out.println("Triplestore is a RDF4J server (detected from the URL), using HTTPRepository instead of SPARQLRepository");
 				// If a URL to a RDF4J update repository with /statements is provided
 				// Then we parse the URL to get a HTTP repo from triplestore URL + repo ID
 				repositoryId = endpointUrl.substring(endpointUrl.indexOf("/repositories/") + 14, endpointUrl.indexOf("/statements"));
