@@ -1,19 +1,20 @@
-FROM maven:3-jdk-8
+# Image to build the jar
+FROM maven:3-jdk-8 as build
 
-LABEL maintainer "Alexander Malic <alexander.malic@maastrichtuniversity.nl>"
+# Avoid to download dependencies if no change in pom.xml
+COPY ./pom.xml ./pom.xml
+RUN mvn dependency:go-offline -B
 
-ENV APP_DIR /app
-ENV TMP_DIR /tmp/dqa
+COPY ./src ./src
+RUN mvn package
 
-WORKDIR $TMP_DIR
+# Final image
+FROM openjdk:8-jre-alpine
 
-COPY . .
+LABEL maintainer  "Vincent Emonet <vincent.emonet@maastrichtuniversity.nl>"
 
-RUN mvn clean install && \
-    mkdir $APP_DIR && \
-    mv target/RdfUpload-0.0.1-SNAPSHOT-jar-with-dependencies.jar $APP_DIR/rdfupload.jar && \
-    rm -rf $TMP_DIR
-    
-WORKDIR $APP_DIR
+COPY --from=build target/RdfUpload-0.0.1-SNAPSHOT-jar-with-dependencies.jar /app/rdfupload.jar
+
+WORKDIR /app
 
 ENTRYPOINT ["java","-jar","/app/rdfupload.jar"]
