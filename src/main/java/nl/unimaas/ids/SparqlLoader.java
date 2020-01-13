@@ -19,11 +19,11 @@ import java.util.Iterator;
 public class SparqlLoader {	
 
 	public static void uploadRdf(String filePath, Repository repo, String graphUri) throws Exception {
-		System.out.println("before getconnection");
+
 //		try (RepositoryConnection conn = repo.getConnection()) {
 		RepositoryConnection conn = repo.getConnection();
 		ValueFactory vf = SimpleValueFactory.getInstance();
-		System.out.println("before filepath");
+		
 		File inputFile = new File(filePath);
 		if(!inputFile.exists())
 			throw new IllegalArgumentException("Input file \"" + inputFile.getAbsolutePath() + "\" does not exist");
@@ -31,17 +31,14 @@ public class SparqlLoader {
 			throw new SecurityException("Can not read from input file \"" + inputFile.getAbsolutePath() + "\"");
 
 		if (inputFile.isDirectory()) {
-			System.out.println("before file filter ");
 			// If the provided input path is a directory, then we iterate over files if this dir
 			Collection<File> files = FileUtils.listFiles(
 					inputFile,
-					new RegexFileFilter(".*\\.(nt|nq|n3|ttl|rdf)(\\.gz)*"),
+					new RegexFileFilter(".*\\.(nt|nq|n3|ttl|rdf|xml|rdfxml)(\\.gz)*"),
 					DirectoryFileFilter.DIRECTORY
 			);
-			System.out.println("before iterator directory: ");
-			System.out.println(files.size());
-			System.out.println(files.toString());
-			// Recursively iterate over files in the directory
+			System.out.println("Uploading files from directory: " + files.toString());
+			// Iterate over files in the directory (not recursive)
 			Iterator<File> iterator = files.iterator();
 			while (iterator.hasNext()) {
 				File f = iterator.next();
