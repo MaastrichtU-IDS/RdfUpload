@@ -24,4 +24,7 @@ public class CliOptions {
 	@Option(names= {"-pw", "--password"}, description = "Password used for triplestore authentication")
 	String password = null;
 
+	@Option(names= {"-g", "--graph-uri"}, description = "Graph to upload the triples to. If nquads and this argument are provided, then this argument has priority")
+	String graphUri = null;
+
 }

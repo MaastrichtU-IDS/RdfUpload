@@ -24,7 +24,7 @@ public class RdfUpload {
 			scanner.setCaseSensitive(false);
 			scanner.scan();
 			for(String inputFilePath : scanner.getIncludedFiles()) {
-				SparqlLoader.uploadRdf("/" + inputFilePath, repo);
+				SparqlLoader.uploadRdf("/" + inputFilePath, repo, cli.graphUri);
 			}
 
 		} catch (Exception e) {
