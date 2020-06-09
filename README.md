@@ -22,13 +22,13 @@ Usage: rdfupload [-?] [-ep=<endpoint>] -if=<inputFile> [-pw=<passWord>]
   -?, --help   display a help message
       -if, --inputFile=<inputFile>
                RDF file path
-      -pw, --Password=<passWord>
+      -pw, --password=<passWord>
                Password used for authentication
-      -rep, --repository=<repository>
+      -rep, --repositoryId=<repository>
                Repository ID
-      -un, --userName=<userName>
+      -un, --username=<userName>
                Username userd for authentication
-      -url, --graphdb-url=<url>
+      -url, --database-url=<uri>
                URL to access GraphDB (e.g.: http://localhost:7200)
 
 ```

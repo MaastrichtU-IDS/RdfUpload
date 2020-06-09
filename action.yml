@@ -1,0 +1,40 @@
+name: 'RDF Upload'
+description: 'Upload RDF from a file to a SPARQL endpoint using RDF4J'
+branding:
+  icon: 'upload-cloud' 
+  color: 'blue'
+inputs:
+  file:
+    description: 'Path of file(s) to upload. Single filepath or multiple files using wildcard, e.g. *.ttl'
+    required: true
+  endpoint:
+    description: 'URL of the SPARQL Endpoint to upload the RDF. e.g. https://graphdb.dumontierlab.com/repositories/test/statements'
+    required: true
+    default: 'https://graphdb.dumontierlab.com/repositories/test/statements'
+  # repository:
+  #   description: 'Optional Repository ID for RDF4J Server. E.g. test'
+  #   required: false
+  user:
+    description: 'Username used for SPARQL endpoint authentication'
+    required: true
+  password:
+    description: 'Password used for SPARQL endpoint authentication'
+    required: true
+  graph:
+    description: 'Graph to upload the triples to. If nquads and this argument are provided, then this argument has priority'
+    required: false
+    # default: 'https://w3id.org/d2s/graph'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - "--inputFile"
+    - ${{ inputs.file }}
+    - "--database-url"
+    - ${{ inputs.endpoint }}
+    - "--username"
+    - ${{ inputs.user }}
+    - "--password"
+    - ${{ inputs.password }}
+    - "--graph-uri"
+    - ${{ inputs.graph }}
